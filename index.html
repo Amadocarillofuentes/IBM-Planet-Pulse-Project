@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AQI Tracker - Real-time Air Quality Monitoring</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <nav id="main-navbar" class="navbar">
+      <div class="navbar-brand">
+        <a href="" class="navbar-logo">🌱 AQI Tracker</a>
+      </div>
+      
+      <div class="navbar-menu">
+        <a href="#" class="nav-item active">🏠 Home</a>
+        <a href="#" class="nav-item">📍 Tracker</a>
+        <a href="#" class="nav-item">🛒 Marketplace</a>
+        <a href="#" class="nav-item">🌱 Actions</a>
+        <a href="#" class="nav-item">📊 Reports</a>
+        <a href="#" class="nav-item">📰 Blog</a>
+        <a href="#" class="nav-item">💬 Community</a>
+        <a href="#" class="nav-item">📢 About</a>
+        <a href="#" class="nav-item">🤝 Join</a>
+      </div>
+
+      <div class="settings-container">
+        <i
+          class="fa-solid fa-cog settings-icon"
+          onclick="toggleTCGSettingsModal()"
+        ></i>
+      </div>
+
+      <div id="settings-modal-tcg" class="modal hidden">
+        <div class="modal-content">
+          <span class="close-button" onclick="toggleTCGSettingsModal()">×</span>
+          <h2>Settings</h2>
+
+          <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="darkModeToggleModal" />
+              <span class="slider"></span>
+            </label>
+            <span>Dark Mode</span>
+          </div>
+
+          <div class="social-button-container">
+            <a href="" target="_blank" class="social-button discord"
+              ><i class="fab fa-discord"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1>Track Air Quality. Take Action. Make Change.</h1>
+            <p class="hero-subtitle">Real-time AQI data for every country with pollution monitoring and green actions</p>
+            <button class="cta-button">Join Green Challenge</button>
+          </div>
+          <div class="hero-visual">
+            <div class="global-aqi-visual">
+              <div class="aqi-circle">
+                <span class="aqi-number">85</span>
+                <span class="aqi-label">Global AQI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Search Bar -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-bar">
+          <i class="fas fa-map-marker-alt search-icon"></i>
+          <input type="text" placeholder="Search by country or city..." class="search-input">
+          <button class="search-button">Search</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global AQI Snapshot Cards -->
+    <section class="snapshot-section">
+      <div class="container">
+        <div class="snapshot-cards">
+          <div class="snapshot-card">
+            <div class="card-icon">🌍</div>
+            <div class="card-content">
+              <h3>Global Average</h3>
+              <div class="aqi-value moderate">AQI: 85</div>
+            </div>
+          </div>
+          <div class="snapshot-card">
+            <div class="card-icon">🏆</div>
+            <div class="card-content">
+              <h3>Cleanest Today</h3>
+              <div class="aqi-value good">AQI: 12</div>
+            </div>
+          </div>
+          <div class="snapshot-card">
+            <div class="card-icon">⚠️</div>
+            <div class="card-content">
+              <h3>Most Polluted</h3>
+              <div class="aqi-value hazardous">AQI: 187</div>
+            </div>
+          </div>
+          <div class="snapshot-card">
+            <div class="card-icon">📈</div>
+            <div class="card-content">
+              <h3>Trending Up</h3>
+              <div class="aqi-value warning">AQI: +23</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pollution Leaderboard -->
+    <main class="main-content">
+      <div class="container">
+        <div class="leaderboard-header">
+          <h2>Top Polluted Countries Today</h2>
+          <div class="sort-controls">
+            <label for="sort-order">Sort by PM₂.₅:</label>
+            <select id="sort-order">
+              <option value="desc">Highest → Lowest</option>
+              <option value="asc">Lowest → Highest</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="leaderboard-table">
+          <div class="table-header">
+            <div class="header-cell rank">#</div>
+            <div class="header-cell country">Country</div>
+            <div class="header-cell population">Population</div>
+            <div class="header-cell region">Region</div>
+            <div class="header-cell aqi">Current AQI</div>
+          </div>
+          
+          <div id="card-container" class="table-body">
+            <!-- Cards will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>© 2024 This website has been made by Team: STARDEV.</p>
+          <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <script src="script.js" type="module"></script>
+  </body>
+</html>
