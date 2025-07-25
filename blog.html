@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - AQI Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Blog-specific styles */
+        .blog-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+
+        .blog-main {
+            background: var(--white);
+        }
+
+        .blog-header {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .blog-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .blog-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Featured Article */
+        .featured-article {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .featured-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--white);
+        }
+
+        .featured-content {
+            padding: 2rem;
+        }
+
+        .featured-badge {
+            background: var(--warning-orange);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .featured-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .featured-excerpt {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .read-more-btn {
+            background: var(--primary-green);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .read-more-btn:hover {
+            background: #236B47;
+        }
+
+        /* Article Grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-category {
+            background: var(--secondary-green);
+            color: var(--text-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--bg-light);
+        }
+
+        .article-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .read-time {
+            color: var(--primary-green);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Sidebar */
+        .blog-sidebar {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-green);
+        }
+
+        .categories-list {
+            list-style: none;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--bg-light);
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            color: var(--primary-green);
+        }
+
+        .category-count {
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .popular-post {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--bg-light);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .popular-post:hover {
+            transform: translateX(5px);
+        }
+
+        .popular-image {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .popular-content {
+            flex: 1;
+        }
+
+        .popular-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+        }
+
+        .popular-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .newsletter-signup {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .newsletter-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .newsletter-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .newsletter-input {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .newsletter-btn {
+            background: var(--white);
+            color: var(--primary-green);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tag:hover {
+            background: var(--primary-green);
+            color: var(--white);
+        }
+
+        /* Dark mode styles */
+        .dark-mode .blog-sidebar,
+        .dark-mode .featured-article,
+        .dark-mode .article-card {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .newsletter-input {
+            background: #333;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .tag {
+            background: #333;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .category-count {
+            background: #333;
+            color: #b0b0b0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .blog-header h1 {
+                font-size: 2rem;
+            }
+
+            .featured-title {
+                font-size: 1.5rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .featured-image {
+                height: 200px;
+                font-size: 3rem;
+            }
+
+            .article-image {
+                height: 150px;
+                font-size: 2rem;
+            }
+
+            .blog-sidebar {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="index.html" class="navbar-logo">🌱 AQI Tracker</a>
+        </div>
+        
+        <div class="navbar-menu">
+            <a href="index.html" class="nav-item">🏠 Home</a>
+            <a href="#" class="nav-item">📍 Tracker</a>
+            <a href="marketplace.html" class="nav-item">🛒 Marketplace</a>
+            <a href="#" class="nav-item">🌱 Actions</a>
+            <a href="#" class="nav-item">📊 Reports</a>
+            <a href="#" class="nav-item active">📰 Blog</a>
+            <a href="#" class="nav-item">💬 Community</a>
+            <a href="#" class="nav-item">📢 About</a>
+            <a href="#" class="nav-item">🤝 Join</a>
+        </div>
+
+        <div class="settings-container">
+            <i class="fa-solid fa-cog settings-icon" onclick="toggleTCGSettingsModal()"></i>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal-tcg" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-button" onclick="toggleTCGSettingsModal()">×</span>
+                <h2>Settings</h2>
+                <div class="switch-container">
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggleModal" />
+                        <span class="slider"></span>
+                    </label>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="social-button-container">
+                    <a href="" target="_blank" class="social-button discord">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="container">
+            <h1>📰 Environment Blog</h1>
+            <p class="blog-subtitle">Stay informed with the latest news, research, and insights about air quality, environmental health, and green living</p>
+        </div>
+    </section>
+
+    <!-- Main Blog Content -->
+    <div class="container">
+        <div class="blog-container">
+            <!-- Main Content Area -->
+            <main class="blog-main">
+                <!-- Featured Article -->
+                <article class="featured-article">
+                    <div class="featured-image">🌍</div>
+                    <div class="featured-content">
+                        <span class="featured-badge">🔥 Featured</span>
+                        <h2 class="featured-title">The Global Air Quality Crisis: What Every Citizen Should Know</h2>
+                        <div class="article-meta">
+                            <div class="author-info">
+                                <div class="author-avatar">DR</div>
+                                <div>
+                                    <div>Dr. Sarah Chen</div>
+                                    <div>Environmental Scientist</div>
+                                </div>
+                            </div>
+                            <div>📅 March 15, 2024</div>
+                            <div>⏱️ 8 min read</div>
+                        </div>
+                        <p class="featured-excerpt">
+                            Air pollution has become one of the most pressing environmental challenges of our time, affecting billions of people worldwide. Recent studies show that 90% of the global population breathes air that exceeds WHO guidelines for pollutants. This comprehensive guide explores the current state of air quality globally, its health impacts, and what individuals and communities can do to make a difference.
+                        </p>
+                        <a href="#" class="read-more-btn">Read Full Article</a>
+                    </div>
+                </article>
+
+                <!-- Articles Grid -->
+                <div class="articles-grid">
+                    <!-- Article 1 -->
+                    <article class="article-card">
+                        <div class="article-image">🌬️</div>
+                        <div class="article-content">
+                            <span class="article-category">Health</span>
+                            <h3 class="article-title">How Indoor Plants Can Improve Your Home's Air Quality</h3>
+                            <p class="article-excerpt">
+                                Discover the science behind air-purifying plants and learn which species are most effective at removing common household pollutants. From snake plants to peace lilies, we've compiled the ultimate guide to creating a cleaner indoor environment.
+                            </p>
+                            <div class="article-footer">
+                                <span class="article-date">March 12, 2024</span>
+                                <span class="read-time">5 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 2 -->
+                    <article class="article-card">
+                        <div class="article-image">🏭</div>
+                        <div class="article-content">
+                            <span class="article-category">Industry</span>
+                            <h3 class="article-title">Major Cities Implement New Air Quality Monitoring Systems</h3>
+                            <p class="article-excerpt">
+                                Cities worldwide are investing in advanced sensor networks to provide real-time air quality data. Learn about the latest technologies being deployed and how they're helping citizens make informed decisions about their daily activities.
+                            </p>
+                            <div class="article-footer">
+                                <span class="article-date">March 10, 2024</span>
+                                <span class="read-time">7 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 3 -->
+                    <article class="article-card">
+                        <div class="article-image">💡</div>
+                        <div class="article-content">
+                            <span class="article-category">Tips</span>
+                            <h3 class="article-title">10 Simple Ways to Reduce Your Carbon Footprint Today</h3>
+                            <p class="article-excerpt">
+                                Small changes can make a big difference. Explore practical, everyday actions that can help reduce your environmental impact while also improving air quality in your community. From transportation choices to energy usage.
+                            </p>
+                            <div class="article-footer">
+                                <span class="article-date">March 8, 2024</span>
+                                <span class="read-time">6 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 4 -->
+                    <article class="article-card">
+                        <div class="article-image">🚗</div>
+                        <div class="article-content">
+                            <span class="article-category">Transportation</span>
+                            <h3 class="article-title">Electric Vehicles: Impact on Urban Air Quality</h3>
+                            <p class="article-excerpt">
+                                As electric vehicle adoption accelerates, cities are seeing measurable improvements in air quality. This analysis examines data from major metropolitan areas and the projected benefits of widespread EV adoption.
+                            </p>
+                            <div class="article-footer">
+                                <span class="article-date">March 5, 2024</span>
+                                <span class="read-time">9 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 5 -->
+                    <article class="article-card">
+                        <div class="article-image">🌡️</div>
+                        <div class="article-content">
+                            <span class="article-category">Climate</span>
+                            <h3 class="article-title">Climate Change and Air Quality: The Hidden Connection</h3>
+                            <p class="article-excerpt">
+                                Rising temperatures don't just affect weather patterns—they also worsen air pollution. Understand the complex relationship between climate change and air quality, and why addressing both issues together is crucial.
+                            </p>
+                            <div class="article-footer">
+                                <span class="article-date">March 3, 2024</span>
+                                <span class="read-time">10 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Article 6 -->
+                    <article class="article-card">
+                        <div class="article-image">👶</div>
+                        <div class="article-content">
+                            <span class="article-category">Health</span>
+                            <h3 class="article-title">Protecting Children from Air Pollution: A Parent's Guide</h3>
+                            <p class="article-excerpt">
+                                Children are particularly vulnerable to air pollution's harmful effects. Learn practical strategies to minimize exposure, recognize symptoms, and create safer environments for young ones at home and school.
+                            </p>
+                            <div class="article-footer">
+                                <span class="article-date">March 1, 2024</span>
+                                <span class="read-time">8 min read</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="blog-sidebar">
+                <!-- Categories -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">📂 Categories</h3>
+                    <ul class="categories-list">
+                        <li class="category-item">
+                            <span>Health & Wellness</span>
+                            <span class="category-count">23</span>
+                        </li>
+                        <li class="category-item">
+                            <span>Environmental Science</span>
+                            <span class="category-count">18</span>
+                        </li>
+                        <li class="category-item">
+                            <span>Green Technology</span>
+                            <span class="category-count">15</span>
+                        </li>
+                        <li class="category-item">
+                            <span>Policy & Regulation</span>
+                            <span class="category-count">12</span>
+                        </li>
+                        <li class="category-item">
+                            <span>Lifestyle Tips</span>
+                            <span class="category-count">28</span>
+                        </li>
+                        <li class="category-item">
+                            <span>Climate Change</span>
+                            <span class="category-count">16</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Popular Posts -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">🔥 Popular Posts</h3>
+                    <div class="popular-post">
+                        <div class="popular-image">🏠</div>
+                        <div class="popular-content">
+                            <h4 class="popular-title">DIY Air Quality Monitor: Build Your Own Sensor</h4>
+                            <p class="popular-date">February 28, 2024</p>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <div class="popular-image">🌱</div>
+                        <div class="popular-content">
+                            <h4 class="popular-title">Best Air-Purifying Plants for Your Office</h4>
+                            <p class="popular-date">February 25, 2024</p>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <div class="popular-image">📊</div>
+                        <div class="popular-content">
+                            <h4 class="popular-title">Understanding AQI: What the Numbers Really Mean</h4>
+                            <p class="popular-date">February 22, 2024</p>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <div class="popular-image">🚴</div>
+                        <div class="popular-content">
+                            <h4 class="popular-title">Safe Cycling Routes During High Pollution Days</h4>
+                            <p class="popular-date">February 20, 2024</p>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <div class="popular-image">💊</div>
+                        <div class="popular-content">
+                            <h4 class="popular-title">Health Effects of Long-term Air Pollution Exposure</h4>
+                            <p class="popular-date">February 18, 2024</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="sidebar-section">
+                    <div class="newsletter-signup">
+                        <h3 class="newsletter-title">📧 Stay Updated</h3>
+                        <p class="newsletter-description">Get the latest environmental news and air quality updates delivered to your inbox weekly.</p>
+                        <form class="newsletter-form">
+                            <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                            <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Tags Cloud -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">🏷️ Popular Tags</h3>
+                    <div class="tags-cloud">
+                        <span class="tag">Air Quality</span>
+                        <span class="tag">PM2.5</span>
+                        <span class="tag">Health</span>
+                        <span class="tag">Climate</span>
+                        <span class="tag">Pollution</span>
+                        <span class="tag">Green Tech</span>
+                        <span class="tag">Indoor Air</span>
+                        <span class="tag">WHO Guidelines</span>
+                        <span class="tag">Environmental</span>
+                        <span class="tag">Sustainability</span>
+                        <span class="tag">Clean Energy</span>
+                        <span class="tag">Urban Planning</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2024 This website has been made by Team: STARDEV.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./blog.js"></script>
+</body>
+</html>
