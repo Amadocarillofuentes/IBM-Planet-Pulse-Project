@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - AQI Tracker</title>
+    <link rel="stylesheet" href="marketplace.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="index.html" class="navbar-logo">🌱 AQI Tracker</a>
+        </div>
+        
+        <button class="hamburger" id="hamburger-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <div class="navbar-menu" id="navbar-menu">
+            <a href="index.html" class="nav-item">🏠 Home</a>
+            <a href="#" class="nav-item">📍 Tracker</a>
+            <a href="marketplace.html" class="nav-item active">🛒 Marketplace</a>
+            <a href="#" class="nav-item">🌱 Actions</a>
+            <a href="#" class="nav-item">📊 Reports</a>
+            <a href="#" class="nav-item">📰 Blog</a>
+            <a href="#" class="nav-item">💬 Community</a>
+            <a href="#" class="nav-item">📢 About</a>
+            <div class="settings-container">
+                <i class="fa-solid fa-cog settings-icon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Eco-Friendly Marketplace</h1>
+                <p class="hero-subtitle">Discover sustainable products for a cleaner world</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label for="category-filter">Category:</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="air-purifiers">Air Purifiers</option>
+                        <option value="green-tech">Green Tech</option>
+                        <option value="used-books">Used Books</option>
+                        <option value="eco-products">Eco Products</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="price-filter">Price Range:</label>
+                    <select id="price-filter">
+                        <option value="all">All Prices</option>
+                        <option value="0-50">$0 - $50</option>
+                        <option value="50-100">$50 - $100</option>
+                        <option value="100-200">$100 - $200</option>
+                        <option value="200+">$200+</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="condition-filter">Condition:</label>
+                    <select id="condition-filter">
+                        <option value="all">All Conditions</option>
+                        <option value="new">New</option>
+                        <option value="like-new">Like New</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="location-filter">Location:</label>
+                    <select id="location-filter">
+                        <option value="all">All Locations</option>
+                        <option value="usa">USA</option>
+                        <option value="europe">Europe</option>
+                        <option value="asia">Asia</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <main class="products-section">
+        <div class="container">
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div class="product-modal" id="product-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="modal-product-content">
+                <div class="modal-image-section">
+                    <img id="modal-product-image" src="" alt="" class="modal-product-img">
+                </div>
+                <div class="modal-info-section">
+                    <div class="modal-category" id="modal-category"></div>
+                    <h2 class="modal-title" id="modal-title"></h2>
+                    <div class="modal-price" id="modal-price"></div>
+                    <div class="modal-rating" id="modal-rating"></div>
+                    <div class="modal-condition" id="modal-condition"></div>
+                    <div class="modal-location" id="modal-location"></div>
+                    <div class="modal-description" id="modal-description"></div>
+                    <div class="modal-seller-info">
+                        <h3>Seller Information</h3>
+                        <div class="seller-details">
+                            <div class="seller-name">EcoSeller Pro</div>
+                            <div class="seller-rating">⭐ 4.8 (247 reviews)</div>
+                            <div class="seller-location">Verified Seller</div>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="buy-now-btn" id="buy-now-btn">Buy Now</button>
+                        <button class="add-to-cart-btn" id="add-to-cart-btn">Add to Cart</button>
+                        <button class="contact-seller-btn" id="contact-seller-btn">Contact Seller</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2024 This website has been made by Team: STARDEV.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="marketplace.js"></script>
+</body>
+</html>
