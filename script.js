@@ -43,156 +43,331 @@ if (darkModeToggleModal) {
   });
 }
 
-const cardContainer = document.getElementById("card-container");
-const sortOrderSelect = document.getElementById("sort-order");
+//bouns animtion with interval
 
-// Holds every card’s data
-let cardsData = [];
+const heroSectBtn = document.getElementById("heroSectBtn");
 
-async function showCountryCards() {
-  try {
-    // 1) Fetch country list
-    const countryResp = await fetch(
-      "https://restcountries.com/v3.1/all?fields=name,flags,population,region,capitalInfo,latlng"
-    );
-    const countries = await countryResp.json();
+setInterval(() => {
+  heroSectBtn.classList.add("bouns");
+  setTimeout(() => heroSectBtn.classList.remove("bouns"), 1500); // match animation duration
+}, 6000); // run every 5 seconds
 
-    // 3) Build an array of promises to fetch each country's AQI
-    const fetchPromises = countries.slice(0, 20).map(async (country) => {
-      const name = country.name.common;
+//card creation
 
-      // Use capital coordinates or country center coordinates
-      let lat, lon;
-      if (country.capitalInfo && country.capitalInfo.latlng) {
-        [lat, lon] = country.capitalInfo.latlng;
-      } else if (country.latlng) {
-        [lat, lon] = country.latlng;
-      } else {
-        // Fallback to some default coordinates for major countries
-        const coords = getCountryCoordinates(name);
-        if (!coords) return null;
-        [lat, lon] = coords;
-      }
+// Wait until the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+  // Grab key DOM elements
+  const cardContainer = document.getElementById("card-container");
+  const sortOrderSelect = document.getElementById("sort-order");
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+  const loadingDiv = document.getElementById("loading");
+  loadingDiv.classList = "smoke";
 
-      try {
-        // Fetch current air quality data
-        const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=pm2_5&timezone=auto`;
-        const response = await fetch(url);
-        const data = await response.json();
+  let cardsData = [];
 
-        let aqiValue = "N/A";
-        let pmValue = -1;
+  showCountryCards();
 
-        if (data.current && data.current.pm2_5 !== null) {
-          const pm25 = data.current.pm2_5;
-          aqiValue = Math.round(pm25 * 3.5).toString(); // Simple PM2.5 to AQI conversion
-          pmValue = parseFloat(aqiValue);
+  sortOrderSelect.addEventListener("change", () => {
+    sortAndRender(searchInput.value.trim().toLowerCase());
+  });
+
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sortAndRender(searchInput.value.trim().toLowerCase());
+    }
+  });
+
+  searchBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sortAndRender(searchInput.value.trim().toLowerCase());
+  });
+
+  // Main data-fetching
+
+  async function showCountryCards() {
+    // Show loading text and disable the controls
+    loadingDiv.classList.remove("hidden");
+    sortOrderSelect.disabled = true;
+    searchInput.disabled = true;
+    searchBtn.disabled = true;
+
+    try {
+      // a) Fetch basic country info
+      const countryResp = await fetch(
+        "https://restcountries.com/v3.1/all?fields=name,flags,population,region,cca3"
+      );
+      const countries = await countryResp.json();
+
+      // b) Fetch GeoJSON polygons to pick lat/lon
+      const geoResp = await fetch(
+        "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json"
+      );
+      const geoJson = await geoResp.json();
+
+      const geoMap = {};
+      geoJson.features.forEach((f) => {
+        geoMap[f.properties.name] = f.geometry;
+      });
+
+      // c) For each country, fetch its latest PM₂.₅ value
+      const fetchPromises = countries.map((country) => {
+        const name = country.name.common;
+        const geo = geoMap[name];
+        if (!geo) return Promise.resolve(null);
+
+        // Extract one lat/lon point from the polygon
+        let lon, lat;
+        if (geo.type === "Polygon") {
+          [lon, lat] = geo.coordinates[0][0];
+        } else if (geo.type === "MultiPolygon") {
+          [lon, lat] = geo.coordinates[0][0][0];
         } else {
-          // Generate realistic demo data for display
-          aqiValue = Math.floor(Math.random() * 200 + 50).toString();
-          pmValue = parseFloat(aqiValue);
+          return Promise.resolve(null);
         }
 
-        return {
-          country,
-          latestPM: aqiValue,
-          pmValue: pmValue,
-        };
-      } catch (error) {
-        // Fallback to demo data if API fails
-        const demoAqi = Math.floor(Math.random() * 200 + 50).toString();
-        return {
-          country,
-          latestPM: demoAqi,
-          pmValue: parseFloat(demoAqi),
-        };
-      }
+        // Build and call the air-quality API
+        const url =
+          `https://air-quality-api.open-meteo.com/v1/air-quality` +
+          `?latitude=${lat}&longitude=${lon}&hourly=pm2_5`;
+
+        return fetch(url)
+          .then((r) => r.json())
+          .then((aqi) => {
+            const arr = aqi.hourly?.pm2_5 || [];
+            // Find the last non-null reading
+            let rawLatest = null;
+            for (let i = arr.length - 1; i >= 0; i--) {
+              if (arr[i] != null) {
+                rawLatest = arr[i];
+                break;
+              }
+            }
+            if (rawLatest == null) {
+              return { country, latestPM: "N/A", pmValue: -1 };
+            } else {
+              const latest = rawLatest.toFixed(1);
+              return {
+                country,
+                latestPM: latest,
+                pmValue: parseFloat(latest),
+              };
+            }
+          })
+          .catch(() => ({
+            country,
+            latestPM: "N/A",
+            pmValue: -1,
+          }));
+      });
+
+      // Wait for all PM₂.₅ fetches to finish
+      const results = await Promise.all(fetchPromises);
+      cardsData = results.filter((x) => x !== null);
+
+      // Hide loading and re-enable UI
+      loadingDiv.classList.add("hidden");
+      sortOrderSelect.disabled = false;
+      searchInput.disabled = false;
+      searchBtn.disabled = false;
+
+      // First render (no filter)
+      sortAndRender("");
+    } catch (err) {
+      console.error("Error loading data:", err);
+      loadingDiv.classList.add("hidden");
+      sortOrderSelect.disabled = false;
+      searchInput.disabled = false;
+      searchBtn.disabled = false;
+    }
+  }
+
+  // Sort, filter, and render the cards
+
+  function sortAndRender(filterTerm = "") {
+    const order = sortOrderSelect.value; // "asc" or "desc"
+
+    // Filter by country name if needed
+    const filtered = filterTerm
+      ? cardsData.filter(({ country }) =>
+          country.name.common.toLowerCase().includes(filterTerm)
+        )
+      : cardsData.slice();
+
+    // Sort by pmValue
+    filtered.sort((a, b) =>
+      order === "asc" ? a.pmValue - b.pmValue : b.pmValue - a.pmValue
+    );
+
+    //If nothing matches, show a message
+    if (filtered.length === 0) {
+      cardContainer.innerHTML = `
+            <div class="no-results">
+              No countries found for “${filterTerm}”.
+            </div>
+          `;
+      return;
+    }
+
+    // Build HTML for each card
+    let rank = 1;
+    const html = filtered
+      .map(({ country, latestPM }) => {
+        const { name, flags, population, region, cca3 } = country;
+        return `
+              <div class="card">
+                <p class="rank-cell">${rank++}</p>
+                <div class="country-cell">
+                  <img src="${flags.png}" alt="Flag of ${name.common}" />
+                  <span>${name.common}</span>
+                </div>
+                <p class="population-cell"> ${population.toLocaleString()}</p>
+                <p class="region-cell">${region}</p>
+                <p class="aqi-cell">PM₂.₅: ${latestPM} µg/m³</p>
+                <button class="details-btn" data-cca3="${cca3}">
+                  Details
+                </button>
+                <div class="details"></div>
+              </div>
+            `;
+      })
+      .join("");
+
+    cardContainer.innerHTML = html;
+
+    // 5. Wire up detail buttons again
+    document.querySelectorAll(".details-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const code = btn.dataset.cca3;
+        const detailsDiv = btn.nextElementSibling;
+
+        if (detailsDiv.style.display === "block") {
+          detailsDiv.style.display = "none";
+          detailsDiv.innerHTML = "";
+          return;
+        }
+
+        // Otherwise, show a loader & open it
+        detailsDiv.innerHTML = "<p>Loading details…</p>";
+        detailsDiv.style.display = "block";
+
+        showCountryDetails(code, detailsDiv);
+      });
+    });
+  }
+
+  // Fetch World Bank indicators (forest+renew)
+
+  async function fetchIndicator(countryCode, indicator) {
+    const url =
+      `https://api.worldbank.org/v2/country/${countryCode}` +
+      `/indicator/${indicator}?format=json&date=2021&per_page=1`;
+
+    const resp = await fetch(url);
+    const json = await resp.json();
+    if (json[1] && json[1].length > 0 && json[1][0].value != null) {
+      return parseFloat(json[1][0].value).toFixed(2);
+    }
+    return "N/A";
+  }
+
+  // Fetch latest pollution news via RSS proxy
+
+  async function fetchPollutionNews(countryName, count = 5) {
+    const rssUrl =
+      `https://news.google.com/rss/search?q=` +
+      encodeURIComponent(`pollution+${countryName}`) +
+      `&hl=en-US&gl=US&ceid=US:en`;
+
+    // Use a public proxy to avoid CORS issues
+    const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+      rssUrl
+    )}`;
+
+    const xmlText = await fetch(proxy).then((r) => r.text());
+    const doc = new DOMParser().parseFromString(xmlText, "application/xml");
+    const items = Array.from(doc.querySelectorAll("item"))
+      .slice(0, count)
+      .map((item) => ({
+        title: item.querySelector("title")?.textContent || "",
+        link: item.querySelector("link")?.textContent || "",
+        pubDate: item.querySelector("pubDate")?.textContent || "",
+      }));
+    return items;
+  }
+
+  // Show details for one country card
+
+  async function showCountryDetails(countryCode, container) {
+    // 1) Insert Close button + placeholder
+    container.innerHTML = `
+    <button class="close-detail">&#10005;</button>
+    <p>Loading details…</p>
+  `;
+
+    // 2) Wire up that Close button
+    container.querySelector(".close-detail").addEventListener("click", () => {
+      container.style.display = "none";
+      container.innerHTML = "";
     });
 
-    // 4) Wait for all AQI fetches to finish
-    const results = await Promise.all(fetchPromises);
+    // 3) Now fetch your 3 bits of data in parallel
+    try {
+      const countryObj = cardsData.find(
+        (x) => x.country.cca3 === countryCode
+      ).country;
+      const countryName = countryObj.name.common;
 
-    // 5) Filter out any nulls
-    cardsData = results.filter((item) => item !== null);
+      const [forestPct, renewPct, newsItems] = await Promise.all([
+        fetchIndicator(countryCode, "AG.LND.FRST.ZS"),
+        fetchIndicator(countryCode, "EG.FEC.RNEW.ZS"),
+        fetchPollutionNews(countryName, 5),
+      ]);
 
-    // 6) Initial render (default "desc")
-    sortAndRender();
-  } catch (err) {
-    console.error("Error loading data:", err);
-    // Load with demo data as fallback
-    loadDemoData();
-  }
-}
-
-// Helper function for country coordinates
-function getCountryCoordinates(countryName) {
-  const coords = {
-    'United States': [39.8283, -98.5795],
-    'China': [35.8617, 104.1954],
-    'India': [20.5937, 78.9629],
-    'Brazil': [-14.2350, -51.9253],
-    'Russia': [61.5240, 105.3188],
-    'Japan': [36.2048, 138.2529],
-    'Germany': [51.1657, 10.4515],
-    'United Kingdom': [55.3781, -3.4360],
-    'France': [46.6034, 1.8883],
-    'Italy': [41.8719, 12.5674]
-  };
-  return coords[countryName] || null;
-}
-
-// Demo data fallback
-function loadDemoData() {
-  const demoCountries = [
-    { name: { common: 'China' }, flags: { png: '🇨🇳' }, population: 1439323776, region: 'Asia' },
-    { name: { common: 'India' }, flags: { png: '🇮🇳' }, population: 1380004385, region: 'Asia' },
-    { name: { common: 'Bangladesh' }, flags: { png: '🇧🇩' }, population: 164689383, region: 'Asia' },
-    { name: { common: 'Pakistan' }, flags: { png: '🇵🇰' }, population: 220892340, region: 'Asia' },
-    { name: { common: 'Mongolia' }, flags: { png: '🇲🇳' }, population: 3278290, region: 'Asia' },
-  ];
-
-  cardsData = demoCountries.map(country => ({
-    country,
-    latestPM: Math.floor(Math.random() * 150 + 80).toString(),
-    pmValue: Math.floor(Math.random() * 150 + 80)
-  }));
-
-  sortAndRender();
-}
-
-// Sorts cardsData & re-renders
-function sortAndRender() {
-  const order = sortOrderSelect.value; // "asc" or "desc"
-  const sorted = cardsData.slice().sort((a, b) => {
-    return order === "asc" ? a.pmValue - b.pmValue : b.pmValue - a.pmValue;
-  });
-
-  // Clear then append
-  cardContainer.innerHTML = "";
-  sorted.forEach((item, index) => {
-    const { country, latestPM } = item;
-    const { name, flags, population, region } = country;
-
-    // Format AQI display
-    const aqiDisplay = latestPM === "N/A" ? "AQI: N/A" : `AQI: ${latestPM}`;
-
-    cardContainer.innerHTML += `
-      <div class="card">
-        <div class="rank-cell">${index + 1}</div>
-        <div class="country-cell">
-          <img src="${flags.png}" alt="${name.common}" />
-          <span>${name.common}</span>
-        </div>
-        <div class="population-cell">${population.toLocaleString()}</div>
-        <div class="region-cell">${region}</div>
-        <div class="aqi-cell">${aqiDisplay}</div>
-      </div>
+      // 4) Build the real details HTML (below the Close button)
+      let html = `
+      <p>Forest Area (% land): ${forestPct}</p>
+      <p>Renewable Energy (% total): ${renewPct}</p>
+      <h4>Latest Pollution News for ${countryName}</h4>
     `;
-  });
-}
 
-// Re-sort & re-render on dropdown change
-sortOrderSelect.addEventListener("change", sortAndRender);
+      if (newsItems.length) {
+        html += "<ul>";
+        newsItems.forEach((item) => {
+          const date = new Date(item.pubDate).toLocaleDateString();
+          html += `
+          <li>
+            <a href="${item.link}" target="_blank" rel="noopener">
+              ${item.title}
+            </a>
+            <div class="pubDate">${date}</div>
+          </li>
+        `;
+        });
+        html += "</ul>";
+      } else {
+        html += "<p>No recent pollution news found.</p>";
+      }
 
-// Kick things off
-showCountryCards();
+      // 5) Replace the placeholder with the real details
+      //    (but leave the Close button in place!)
+      container.innerHTML =
+        `<button class="close-detail">&#10005;</button>` + html;
+
+      // 6) Re-wire up the Close button on the newly injected HTML
+      container.querySelector(".close-detail").addEventListener("click", () => {
+        container.style.display = "none";
+        container.innerHTML = "";
+      });
+    } catch (err) {
+      console.error("Error loading details:", err);
+      container.innerHTML = `<button class="close-detail">&#10005;</button>
+      <p>Error loading details.</p>`;
+      container.querySelector(".close-detail").addEventListener("click", () => {
+        container.style.display = "none";
+        container.innerHTML = "";
+      });
+    }
+  }
+});
