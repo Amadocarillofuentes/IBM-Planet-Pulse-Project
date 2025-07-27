@@ -859,25 +859,14 @@ body.dark-mode {
 .dark-mode .hero-section {
   background: url(images/AQI-banner.webp);
   background-size: cover;
-  padding: 4rem 0;
-  backdrop-filter: blur(10px);
-  position: relative;
 }
 
 .dark-mode .hero-banner {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -10;
   background: linear-gradient(
     135deg,
     var(--transBG-banner) 0%,
     rgba(61, 61, 61, 0.623) 100%
   );
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
 }
 
 .dark-mode .hero-subtitle {
@@ -920,9 +909,14 @@ body.dark-mode {
   color: var(--text-primary);
 }
 
+.dark-mode .snapshot-card {
+  transition: 500ms ease-in-out;
+}
+
 .dark-mode .snapshot-card:hover {
-  background-color: var(--shade1-green);
-  color: var(--bg-dark);
+  border-right: none;
+  border-left: 2px solid var(--primary-green);
+  transform: rotate(-2deg) translateY(0.5rem);
 }
 
 .dark-mode #sort-order {
