@@ -23,21 +23,31 @@
         >
       </div>
 
-      <div class="navbar-menu">
-        <a href="#" class="nav-item active">🏠 Home</a>
-        <a href="#" class="nav-item">📍 Tracker</a>
-        <a href="marketplace.html" class="nav-item">🛒 Marketplace</a>
-        <a href="#" class="nav-item">🌱 Actions</a>
-        <a href="#" class="nav-item">📊 Reports</a>
-        <a href="blog.html" class="nav-item">📰 Blog</a>
-        <a href="#" class="nav-item">💬 Community</a>
-        <a href="#" class="nav-item">📢 About</a>
-        <a href="#" class="nav-item">🤝 Join</a>
+      <div class="navbar-menu" id="main-nav">
+        <a href="#" class="nav-item active"
+          ><i class="fa-solid fa-house"></i> Home</a
+        >
+        <a href="#" class="nav-item"
+          ><i class="fa-solid fa-chart-bar"></i> Tracker</a
+        >
+        <a href="#" class="nav-item"
+          ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
+        >
+        <a href="blog.html" class="nav-item"
+          ><i class="fa-solid fa-newspaper"></i> Blog</a
+        >
+        <a href="#" class="nav-item"
+          ><i class="fa-solid fa-address-card"></i> About</a
+        >
+        <a href="#" class="nav-item"
+          ><i class="fa-solid fa-handshake"></i> Join</a
+        >
       </div>
 
       <div class="settings-container">
         <i
           class="fa-solid fa-cog settings-icon"
+          id="setting-logo"
           onclick="toggleTCGSettingsModal()"
         ></i>
       </div>
@@ -52,13 +62,33 @@
               <input type="checkbox" id="darkModeToggleModal" />
               <span class="slider"></span>
             </label>
-            <span>Dark Mode</span>
+            <span id="mode-name">Dark Mode</span>
           </div>
 
           <div class="social-button-container">
             <a href="" target="_blank" class="social-button discord"
               ><i class="fab fa-discord"></i
             ></a>
+            <div class="navbar-menu" id="hidden-nav">
+              <a href="#" class="nav-item active"
+                ><i class="fa-solid fa-house"></i> Home</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-chart-bar"></i> Tracker</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
+              >
+              <a href="blog.html" class="nav-item"
+                ><i class="fa-solid fa-newspaper"></i> Blog</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-address-card"></i> About</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-handshake"></i> Join</a
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -66,6 +96,7 @@
 
     <!-- Hero Section -->
     <section class="hero-section">
+      <div class="hero-banner"></div>
       <div class="container">
         <div class="hero-content">
           <div class="hero-text">
@@ -83,7 +114,9 @@
               <div class="aqi-orbit">
                 <div class="aqi-circle is-breathing gradient-flow">
                   <span class="aqi-number">85</span>
-                  <span class="aqi-label">Global AQI</span>
+                  <span class="aqi-label"
+                    >Global AQI <i class="fa-solid fa-wind"></i>
+                  </span>
                 </div>
               </div>
             </div>
@@ -113,27 +146,35 @@
       <div class="container">
         <div class="snapshot-cards">
           <div class="snapshot-card">
-            <h3 class="card-icon">🌍 Global Average</h3>
+            <h3 class="card-icon">
+              <i class="fa-solid fa-globe"></i> Global Average
+            </h3>
             <div class="card-content">
-              <div class="aqi-value moderate">AQI: 85</div>
+              <div class="aqi-value moderate" id="averageAqi">AQI: 85</div>
             </div>
           </div>
           <div class="snapshot-card">
-            <h3 class="card-icon">🏆 Cleanest Today</h3>
+            <h3 class="card-icon">
+              <i class="fa-solid fa-leaf"></i> Cleanest Today
+            </h3>
             <div class="card-content">
-              <div class="aqi-value good">AQI: 12</div>
+              <div class="aqi-value good" id="cleanestAqi">AQI: 12</div>
             </div>
           </div>
           <div class="snapshot-card">
-            <h3 class="card-icon">⚠️ Most Polluted</h3>
+            <h3 class="card-icon">
+              <i class="fa-solid fa-biohazard"></i> Most Polluted
+            </h3>
             <div class="card-content">
-              <div class="aqi-value hazardous">AQI: 187</div>
+              <div class="aqi-value hazardous" id="pollutedAqi">AQI: 187</div>
             </div>
           </div>
           <div class="snapshot-card">
-            <h3 class="card-icon">📈 Trending Up</h3>
+            <h3 class="card-icon">
+              <i class="fa-solid fa-arrow-trend-up"></i> Trending Up
+            </h3>
             <div class="card-content">
-              <div class="aqi-value warning">AQI: +23</div>
+              <div class="aqi-value warning" id="trendingAqi">AQI: +23</div>
             </div>
           </div>
         </div>
