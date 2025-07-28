@@ -1,50 +1,73 @@
-// ----- SETTINGS MODAL (unchanged) -----
-const settingsIcons = document.querySelectorAll(".settings-icon");
-const modal = document.getElementById("settings-modal-tcg");
-const darkModeToggleModal = document.getElementById("darkModeToggleModal");
+document.addEventListener("DOMContentLoaded", () => {
+  //setting module
 
-function toggleTCGSettingsModal() {
-  modal.classList.toggle("hidden");
-  if (!modal.classList.contains("hidden")) {
-    syncToggleWithDarkMode();
-  }
-}
+  const settingsIcons = document.querySelectorAll(".settings-icon");
+  const modal = document.getElementById("settings-modal-tcg");
+  const darkModeToggleModal = document.getElementById("darkModeToggleModal");
 
-function syncToggleWithDarkMode() {
-  if (darkModeToggleModal) {
-    darkModeToggleModal.checked = document.body.classList.contains("dark-mode");
-  }
-}
-
-settingsIcons.forEach((icon) => {
-  icon.addEventListener("click", toggleTCGSettingsModal);
-});
-
-const closeButton = document.querySelector(".close-button");
-if (closeButton) {
-  closeButton.addEventListener("click", toggleTCGSettingsModal);
-}
-
-// Dark mode
-const modeName = document.getElementById("mode-name");
-const savedDarkMode = localStorage.getItem("darkMode") === "enabled";
-if (savedDarkMode) {
-  document.body.classList.add("dark-mode");
-}
-if (darkModeToggleModal) {
-  darkModeToggleModal.checked = savedDarkMode;
-  darkModeToggleModal.addEventListener("change", () => {
-    if (darkModeToggleModal.checked) {
-      document.body.classList.add("dark-mode");
-      modeName.innerText = "Light Mode";
-      localStorage.setItem("darkMode", "enabled");
-    } else {
-      document.body.classList.remove("dark-mode");
-      modeName.innerText = "Dark Mode";
-      localStorage.setItem("darkMode", "disabled");
+  function toggleTCGSettingsModal() {
+    modal.classList.toggle("hidden");
+    if (!modal.classList.contains("hidden")) {
+      syncToggleWithDarkMode();
     }
+  }
+
+  function syncToggleWithDarkMode() {
+    if (darkModeToggleModal) {
+      darkModeToggleModal.checked =
+        document.body.classList.contains("dark-mode");
+    }
+  }
+
+  settingsIcons.forEach((icon) => {
+    icon.addEventListener("click", toggleTCGSettingsModal);
   });
-}
+
+  const closeButton = document.querySelector(".close-button");
+  if (closeButton) {
+    closeButton.addEventListener("click", toggleTCGSettingsModal);
+  }
+
+  // Dark Mode Logic
+  const modeName = document.getElementById("mode-name");
+  const savedDarkMode = localStorage.getItem("darkMode") === "enabled";
+  if (savedDarkMode) {
+    document.body.classList.add("dark-mode");
+  }
+  if (darkModeToggleModal) {
+    darkModeToggleModal.checked = savedDarkMode;
+    darkModeToggleModal.addEventListener("change", () => {
+      if (darkModeToggleModal.checked) {
+        document.body.classList.add("dark-mode");
+        modeName.innerText = "Light Mode";
+        localStorage.setItem("darkMode", "enabled");
+      } else {
+        document.body.classList.remove("dark-mode");
+        modeName.innerText = "Dark Mode";
+        localStorage.setItem("darkMode", "disabled");
+      }
+    });
+  }
+
+  const hiddenMenu = document.getElementById("hidden-nav");
+  const mainNav = document.getElementById("main-nav");
+  const settingLogo = document.getElementById("setting-logo");
+
+  function showMenu() {
+    if (window.innerWidth < 756) {
+      mainNav.style.display = "none";
+      hiddenMenu.style.display = "flex";
+      settingLogo.className = "fa-solid fa-list settings-icon";
+    } else {
+      hiddenMenu.style.display = "none";
+      mainNav.style.display = "flex";
+      settingLogo.className = "fa-solid fa-cog settings-icon";
+    }
+  }
+
+  showMenu();
+  window.addEventListener("resize", showMenu);
+});
 
 //bouns animtion with interval
 
@@ -54,28 +77,6 @@ setInterval(() => {
   heroSectBtn.classList.add("bouns");
   setTimeout(() => heroSectBtn.classList.remove("bouns"), 1500); // match animation duration
 }, 6000); // run every 5 seconds
-
-//hidden menu show
-const hiddenMenu = document.getElementById("hidden-nav");
-const mainNav = document.getElementById("main-nav");
-const settingLogo = document.getElementById("setting-logo");
-
-function showMenu() {
-  if (window.innerWidth < 756) {
-    mainNav.style.display = "none";
-    hiddenMenu.style.display = "flex";
-    settingLogo.className = "fa-solid fa-list settings-icon";
-  } else {
-    hiddenMenu.style.display = "none";
-    mainNav.style.display = "flex";
-    settingLogo.className = "fa-solid fa-cog settings-icon";
-  }
-}
-
-showMenu();
-
-//Run again on resize
-window.addEventListener("resize", showMenu);
 
 //card creation
 
@@ -242,6 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //putting headr value
 
+    const globalAqi = document.getElementById("globalAqi");
     const globalAvg = document.getElementById("averageAqi");
     const cleanestAqi = document.getElementById("cleanestAqi");
     const pollutedAqi = document.getElementById("pollutedAqi");
@@ -284,14 +286,15 @@ document.addEventListener("DOMContentLoaded", () => {
         average = Math.floor(Math.random() * (40 - 10 + 1)) + 10;
       }
 
+      globalAqi.innerText = average.toFixed(1);
       globalAvg.innerText = `AQI: ${average.toFixed(2)}`;
       cleanestAqi.innerText = `AQI: ${lowest}`;
       pollutedAqi.innerText = `AQI: ${highest}`;
       trendingAqi.innerText = `AQI: ${mode}`;
     } catch (err) {
-      globalAvg.innerText = `AQI:${
-        Math.floor(Math.random() * (40 - 10 + 1)) + 10
-      }`;
+      const ranAvg = Math.floor(Math.random() * (40 - 10 + 1)) + 10;
+      globalAqi.innerText = ranAvg;
+      globalAvg.innerText = `AQI:${ranAvg}`;
       cleanestAqi.innerText = `AQI:${
         Math.floor(Math.random() * (20 - 10 + 1)) + 5
       }`;

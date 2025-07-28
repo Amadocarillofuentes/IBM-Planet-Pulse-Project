@@ -64,9 +64,6 @@ body.dark-mode {
   background: var(--primary-green);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
-}
-
-.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -757,7 +754,7 @@ body.dark-mode {
 
 .footer-links a:hover {
   color: var(--charcole);
-  border-bottom: 1px solid var(--charcole);
+  transform: translateY(-0.2rem);
 }
 
 .term-box {

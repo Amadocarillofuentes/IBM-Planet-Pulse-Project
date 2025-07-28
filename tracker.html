@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AQI Tracker - Real-time Air Quality Monitoring</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="tracker.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <nav id="main-navbar" class="navbar">
+      <div class="navbar-brand">
+        <a href="" class="navbar-logo"
+          ><img src="./images/logo.png" alt="" /> AQI Tracker</a
+        >
+      </div>
+
+      <div class="navbar-menu" id="main-nav">
+        <a href="./index.html" class="nav-item active"
+          ><i class="fa-solid fa-house"></i> Home</a
+        >
+        <a href="./tracker.html" class="nav-item"
+          ><i class="fa-solid fa-chart-bar"></i> Tracker</a
+        >
+        <a href="./marketplace_section/marketplace.html" class="nav-item"
+          ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
+        >
+        <a href="blog.html" class="nav-item"
+          ><i class="fa-solid fa-newspaper"></i> Blog</a
+        >
+        <a href="#" class="nav-item"
+          ><i class="fa-solid fa-address-card"></i> About</a
+        >
+        <a href="#" class="nav-item"
+          ><i class="fa-solid fa-handshake"></i> Join</a
+        >
+      </div>
+
+      <div class="settings-container">
+        <i
+          class="fa-solid fa-cog settings-icon"
+          id="setting-logo"
+          onclick="toggleTCGSettingsModal()"
+        ></i>
+      </div>
+
+      <div id="settings-modal-tcg" class="modal hidden">
+        <div class="modal-content">
+          <span class="close-button" onclick="toggleTCGSettingsModal()">×</span>
+          <h2>Settings</h2>
+
+          <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="darkModeToggleModal" />
+              <span class="slider"></span>
+            </label>
+            <span id="mode-name">Dark Mode</span>
+          </div>
+
+          <div class="social-button-container">
+            <a href="" target="_blank" class="social-button discord"
+              ><i class="fab fa-discord"></i
+            ></a>
+            <div class="navbar-menu" id="hidden-nav">
+              <a href="#" class="nav-item active"
+                ><i class="fa-solid fa-house"></i> Home</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-chart-bar"></i> Tracker</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
+              >
+              <a href="blog.html" class="nav-item"
+                ><i class="fa-solid fa-newspaper"></i> Blog</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-address-card"></i> About</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fa-solid fa-handshake"></i> Join</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Location Selection -->
+    <section class="location-section">
+      <div class="container">
+        <div class="location-controls">
+          <input
+            type="text"
+            class="location-input"
+            id="locationInput"
+            placeholder="Enter city or country name..."
+            value="New York"
+          />
+          <button class="location-button" id="searchButton">
+            <i class="fas fa-search"></i> Search Location
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Stats -->
+    <section class="current-stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card" data-stat="aqi">
+            <div class="stat-icon">
+              <i class="fas fa-wind"></i>
+            </div>
+            <div class="stat-value" id="currentAQI">85</div>
+            <div class="stat-label">Current AQI</div>
+          </div>
+          <div class="stat-card" data-stat="temp">
+            <div class="stat-icon">
+              <i class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="stat-value" id="currentTemp">22°C</div>
+            <div class="stat-label">Temperature</div>
+          </div>
+          <div class="stat-card" data-stat="humidity">
+            <div class="stat-icon">
+              <i class="fas fa-tint"></i>
+            </div>
+            <div class="stat-value" id="currentHumidity">65%</div>
+            <div class="stat-label">Humidity</div>
+          </div>
+          <div class="stat-card" data-stat="visibility">
+            <div class="stat-icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-value" id="currentVisibility">10km</div>
+            <div class="stat-label">Visibility</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Time Period Controls -->
+    <section class="time-controls">
+      <div class="container">
+        <div class="time-buttons">
+          <button class="time-btn active" data-period="24h">
+            <i class="fas fa-clock"></i> 24 Hours
+          </button>
+          <button class="time-btn" data-period="7d">
+            <i class="fas fa-calendar-week"></i> 7 Days
+          </button>
+          <button class="time-btn" data-period="30d">
+            <i class="fas fa-calendar-alt"></i> 30 Days
+          </button>
+          <button class="time-btn" data-period="1y">
+            <i class="fas fa-calendar"></i> 1 Year
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts-section">
+      <div class="container">
+        <!-- AQI Trend Chart -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3 class="chart-title">
+              <i class="fas fa-line-chart"></i>
+              AQI Trend Analysis
+            </h3>
+            <span class="chart-info" id="aqiChartInfo">Last 24 hours</span>
+          </div>
+          <div class="chart-canvas">
+            <canvas id="aqiChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Pollutants Chart -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3 class="chart-title">
+              <i class="fas fa-industry"></i>
+              Pollutant Levels
+            </h3>
+            <span class="chart-info" id="pollutantsChartInfo"
+              >PM2.5, PM10, NO2, SO2</span
+            >
+          </div>
+          <div class="chart-canvas">
+            <canvas id="pollutantsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Weather Correlation Chart -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3 class="chart-title">
+              <i class="fas fa-cloud-sun"></i>
+              Weather Correlation
+            </h3>
+            <span class="chart-info" id="weatherChartInfo"
+              >Temperature, Humidity, Wind Speed</span
+            >
+          </div>
+          <div class="chart-canvas">
+            <canvas id="weatherChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pollution Prediction Section -->
+    <section class="prediction-section">
+      <div class="container">
+        <div class="prediction-header">
+          <h2><i class="fas fa-crystal-ball"></i> AI-Powered Predictions</h2>
+          <p>
+            Advanced forecasting based on historical trends, weather patterns,
+            and environmental factors
+          </p>
+        </div>
+
+        <!-- Prediction Overview Cards -->
+        <div class="prediction-overview">
+          <div class="prediction-card trend-card">
+            <div class="prediction-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="prediction-content">
+              <h3>Trend Analysis</h3>
+              <div class="trend-indicator" id="trendIndicator">
+                <span class="trend-arrow">↗️</span>
+                <span class="trend-text">Increasing</span>
+              </div>
+              <p class="trend-description" id="trendDescription">
+                AQI levels showing 12% increase over the past month due to
+                industrial activity
+              </p>
+            </div>
+          </div>
+
+          <div class="prediction-card forecast-card">
+            <div class="prediction-icon">
+              <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="prediction-content">
+              <h3>7-Day Forecast</h3>
+              <div class="forecast-value" id="forecastValue">
+                <span class="forecast-aqi">AQI: 78-95</span>
+              </div>
+              <p class="forecast-confidence">
+                Confidence: 85% | Model Accuracy: 92%
+              </p>
+            </div>
+          </div>
+
+          <div class="prediction-card risk-card">
+            <div class="prediction-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="prediction-content">
+              <h3>Risk Assessment</h3>
+              <div class="risk-level moderate" id="riskLevel">Moderate</div>
+              <p class="risk-description">
+                Sensitive groups should limit prolonged outdoor activities. Air
+                quality may affect children and elderly.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Predictions -->
+        <div class="detailed-predictions">
+          <!-- Seasonal Forecast -->
+          <div class="prediction-detailed-card">
+            <div class="prediction-card-header">
+              <h3><i class="fas fa-calendar-alt"></i> Seasonal Forecast</h3>
+              <span class="prediction-period">Next 3 Months</span>
+            </div>
+            <div class="seasonal-grid">
+              <div class="season-item">
+                <h4><i class="fas fa-calendar-day"></i> Current Month</h4>
+                <div class="season-aqi current">AQI: 85</div>
+                <p>Industrial activity peak during winter season</p>
+              </div>
+              <div class="season-item">
+                <h4><i class="fas fa-arrow-right"></i> Next Month</h4>
+                <div class="season-aqi predicted">AQI: 92</div>
+                <p>Weather pattern shift expected to worsen conditions</p>
+              </div>
+              <div class="season-item">
+                <h4><i class="fas fa-cloud-rain"></i> Month +2</h4>
+                <div class="season-aqi predicted">AQI: 78</div>
+                <p>Monsoon season begins, natural air cleaning</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contributing Factors -->
+          <div class="prediction-detailed-card">
+            <div class="prediction-card-header">
+              <h3><i class="fas fa-cogs"></i> Contributing Factors</h3>
+              <span class="prediction-period">Impact Analysis</span>
+            </div>
+            <div class="factors-list">
+              <div class="factor-item">
+                <div class="factor-info">
+                  <i class="fas fa-industry factor-icon"></i>
+                  <div>
+                    <span class="factor-name">Industrial Emissions</span>
+                    <p
+                      style="
+                        font-size: 0.9rem;
+                        color: var(--text-secondary);
+                        margin: 0;
+                      "
+                    >
+                      Coal power plants and manufacturing
+                    </p>
+                  </div>
+                </div>
+                <div class="factor-impact">
+                  <div class="impact-bar">
+                    <div class="impact-fill" style="width: 75%"></div>
+                  </div>
+                  <span class="impact-value">75%</span>
+                </div>
+              </div>
+              <div class="factor-item">
+                <div class="factor-info">
+                  <i class="fas fa-car factor-icon"></i>
+                  <div>
+                    <span class="factor-name">Vehicle Emissions</span>
+                    <p
+                      style="
+                        font-size: 0.9rem;
+                        color: var(--text-secondary);
+                        margin: 0;
+                      "
+                    >
+                      Traffic congestion and diesel vehicles
+                    </p>
+                  </div>
+                </div>
+                <div class="factor-impact">
+                  <div class="impact-bar">
+                    <div class="impact-fill" style="width: 60%"></div>
+                  </div>
+                  <span class="impact-value">60%</span>
+                </div>
+              </div>
+              <div class="factor-item">
+                <div class="factor-info">
+                  <i class="fas fa-cloud factor-icon"></i>
+                  <div>
+                    <span class="factor-name">Weather Conditions</span>
+                    <p
+                      style="
+                        font-size: 0.9rem;
+                        color: var(--text-secondary);
+                        margin: 0;
+                      "
+                    >
+                      Wind patterns and atmospheric pressure
+                    </p>
+                  </div>
+                </div>
+                <div class="factor-impact">
+                  <div class="impact-bar">
+                    <div class="impact-fill" style="width: 45%"></div>
+                  </div>
+                  <span class="impact-value">45%</span>
+                </div>
+              </div>
+              <div class="factor-item">
+                <div class="factor-info">
+                  <i class="fas fa-fire factor-icon"></i>
+                  <div>
+                    <span class="factor-name">Seasonal Burning</span>
+                    <p
+                      style="
+                        font-size: 0.9rem;
+                        color: var(--text-secondary);
+                        margin: 0;
+                      "
+                    >
+                      Agricultural waste and forest fires
+                    </p>
+                  </div>
+                </div>
+                <div class="factor-impact">
+                  <div class="impact-bar">
+                    <div class="impact-fill" style="width: 30%"></div>
+                  </div>
+                  <span class="impact-value">30%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Health Impact Prediction -->
+          <div class="prediction-detailed-card">
+            <div class="prediction-card-header">
+              <h3><i class="fas fa-heartbeat"></i> Health Impact Forecast</h3>
+              <span class="prediction-period">Population Risk Assessment</span>
+            </div>
+            <div class="health-impact-grid">
+              <div class="health-category">
+                <div class="health-icon healthy">
+                  <i class="fas fa-child"></i>
+                </div>
+                <h4>Children (0-12 years)</h4>
+                <div class="health-risk moderate">Moderate Risk</div>
+                <p>
+                  Limit outdoor play during peak pollution hours (6-10 AM, 6-9
+                  PM)
+                </p>
+              </div>
+              <div class="health-category">
+                <div class="health-icon elderly">
+                  <i class="fas fa-user-friends"></i>
+                </div>
+                <h4>Elderly (65+ years)</h4>
+                <div class="health-risk high">High Risk</div>
+                <p>
+                  Avoid strenuous outdoor activities. Use N95 masks when
+                  necessary.
+                </p>
+              </div>
+              <div class="health-category">
+                <div class="health-icon respiratory">
+                  <i class="fas fa-lungs"></i>
+                </div>
+                <h4>Respiratory Patients</h4>
+                <div class="health-risk high">High Risk</div>
+                <p>
+                  Stay indoors, use air purifiers. Keep medications readily
+                  available.
+                </p>
+              </div>
+              <div class="health-category">
+                <div class="health-icon general">
+                  <i class="fas fa-users"></i>
+                </div>
+                <h4>General Population</h4>
+                <div class="health-risk low">Low-Moderate Risk</div>
+                <p>
+                  Normal activities with increased awareness. Consider masks
+                  outdoors.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Improvement Scenarios -->
+          <div class="prediction-detailed-card">
+            <div class="prediction-card-header">
+              <h3><i class="fas fa-leaf"></i> Improvement Scenarios</h3>
+              <span class="prediction-period">Policy Impact Modeling</span>
+            </div>
+            <div class="scenarios-list">
+              <div class="scenario-item">
+                <div class="scenario-header">
+                  <h4><i class="fas fa-chart-line"></i> Current Trajectory</h4>
+                  <span class="scenario-impact negative"
+                    >+15% AQI increase</span
+                  >
+                </div>
+                <p>
+                  Continuation of current emissions levels with seasonal
+                  variations and economic growth
+                </p>
+                <div class="scenario-timeline">
+                  Expected impact by: December 2024
+                </div>
+              </div>
+              <div class="scenario-item">
+                <div class="scenario-header">
+                  <h4><i class="fas fa-bus"></i> Green Transport Initiative</h4>
+                  <span class="scenario-impact positive"
+                    >-8% AQI reduction</span
+                  >
+                </div>
+                <p>
+                  50% electric vehicle adoption in public transport and reduced
+                  diesel vehicle usage
+                </p>
+                <div class="scenario-timeline">
+                  Expected impact by: June 2025
+                </div>
+              </div>
+              <div class="scenario-item">
+                <div class="scenario-header">
+                  <h4>
+                    <i class="fas fa-solar-panel"></i> Industrial Clean Energy
+                  </h4>
+                  <span class="scenario-impact positive"
+                    >-25% AQI reduction</span
+                  >
+                </div>
+                <p>
+                  Transition to renewable energy sources and stricter emission
+                  standards for industries
+                </p>
+                <div class="scenario-timeline">
+                  Expected impact by: January 2026
+                </div>
+              </div>
+              <div class="scenario-item">
+                <div class="scenario-header">
+                  <h4><i class="fas fa-hands-helping"></i> Combined Efforts</h4>
+                  <span class="scenario-impact positive"
+                    >-40% AQI reduction</span
+                  >
+                </div>
+                <p>
+                  All initiatives implemented together with public participation
+                  and policy enforcement
+                </p>
+                <div class="scenario-timeline">
+                  Expected impact by: June 2026
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Recommendations -->
+        <div class="recommendations-section">
+          <h3><i class="fas fa-lightbulb"></i> Smart Action Recommendations</h3>
+          <div class="recommendations-grid">
+            <div class="recommendation-card immediate">
+              <div class="rec-header">
+                <h4>
+                  <i class="fas fa-exclamation-circle"></i> Immediate Actions
+                  (1-7 Days)
+                </h4>
+                <span class="rec-priority high">Critical</span>
+              </div>
+              <ul class="rec-list">
+                <li>
+                  Issue real-time air quality alerts to all residents via mobile
+                  apps
+                </li>
+                <li>
+                  Implement odd-even traffic restrictions during peak hours
+                </li>
+                <li>
+                  Deploy mobile health monitoring units in high-risk areas
+                </li>
+                <li>
+                  Restrict industrial operations during meteorologically
+                  unfavorable conditions
+                </li>
+                <li>
+                  Activate emergency air purification systems in schools and
+                  hospitals
+                </li>
+              </ul>
+            </div>
+            <div class="recommendation-card short-term">
+              <div class="rec-header">
+                <h4>
+                  <i class="fas fa-calendar-check"></i> Short-term Actions (1-3
+                  Months)
+                </h4>
+                <span class="rec-priority medium">Important</span>
+              </div>
+              <ul class="rec-list">
+                <li>Increase electric bus frequency by 40% in major routes</li>
+                <li>
+                  Deploy 100 mobile air purification units in critical zones
+                </li>
+                <li>Launch city-wide carpooling and bike-sharing programs</li>
+                <li>Plant 10,000 trees focusing on air purification species</li>
+                <li>
+                  Implement smart traffic management systems to reduce
+                  congestion
+                </li>
+              </ul>
+            </div>
+            <div class="recommendation-card long-term">
+              <div class="rec-header">
+                <h4>
+                  <i class="fas fa-seedling"></i> Long-term Strategy (6+ Months)
+                </h4>
+                <span class="rec-priority low">Strategic</span>
+              </div>
+              <ul class="rec-list">
+                <li>
+                  Complete transition to electric public transport by 2026
+                </li>
+                <li>Implement Euro VI emission standards for all vehicles</li>
+                <li>Develop 5 major green corridors with native vegetation</li>
+                <li>Invest $50M in solar and wind energy infrastructure</li>
+                <li>
+                  Establish 20 community-based air quality monitoring stations
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <i class="fa-solid fa-circle-arrow-up" id="backToTopBtn"></i>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>© 2024 This website has been made by Team: STARDEV.</p>
+          <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="tracker.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
