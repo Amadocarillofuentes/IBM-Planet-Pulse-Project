@@ -1,0 +1,974 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - AQI Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fffe;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #2c5530 0%, #3d7c47 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand .navbar-logo {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .settings-container {
+            margin-left: 1rem;
+        }
+
+        .settings-icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.3s ease;
+        }
+
+        .settings-icon:hover {
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Main Content */
+        .contact-content {
+            min-height: calc(100vh - 200px);
+            padding: 3rem 0;
+        }
+
+        .contact-content h1 {
+            font-size: 2.5rem;
+            color: #2c5530;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .contact-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-info-section,
+        .contact-form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .contact-info-section h2,
+        .contact-form-section h2 {
+            color: #2c5530;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e8f5e8;
+            padding-bottom: 0.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fffe;
+            border-radius: 8px;
+            border-left: 4px solid #3d7c47;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: #3d7c47;
+            margin-right: 1rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .contact-details h3 {
+            color: #2c5530;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details p {
+            color: #555;
+            margin: 0;
+        }
+
+        .contact-details a {
+            color: #3d7c47;
+            text-decoration: none;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #2c5530;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.875rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3d7c47;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            background: #3d7c47;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2c5530;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .map-section h2 {
+            color: #2c5530;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .map-placeholder {
+            background: #f0f0f0;
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #c3e6cb;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c5530;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .settings-modal.hidden {
+            display: none;
+        }
+
+        .settings-modal:not(.hidden) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-modal-content {
+            background: white;
+            color: #333;
+            margin: 15px;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 420px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #2c5530;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        .switch input:checked + .slider {
+            background-color: #2c5530;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .social-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .social-button:hover {
+            transform: scale(1.1);
+        }
+
+        .social-button.discord {
+            background-color: #5865f2;
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .navbar {
+            background: linear-gradient(135deg, #1a2d1e 0%, #2a4a32 100%);
+        }
+
+        .dark-mode .contact-info-section,
+        .dark-mode .contact-form-section,
+        .dark-mode .map-section {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .contact-item {
+            background: #333;
+            border-left-color: #3d7c47;
+        }
+
+        .dark-mode .contact-details a {
+            color: #4a9d5a;
+        }
+
+        .dark-mode .form-group input,
+        .dark-mode .form-group select,
+        .dark-mode .form-group textarea {
+            background: #333;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .form-group input:focus,
+        .dark-mode .form-group select:focus,
+        .dark-mode .form-group textarea:focus {
+            border-color: #4a9d5a;
+        }
+
+        .dark-mode .map-placeholder {
+            background: #333;
+            color: #ccc;
+        }
+
+        .dark-mode .footer {
+            background: #1a2d1e;
+        }
+
+        .dark-mode .settings-modal-content {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .close-button:hover {
+            color: #4a9d5a;
+        }
+
+        .dark-mode .slider:before {
+            background-color: #e0e0e0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .navbar-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #2c5530 0%, #3d7c47 100%);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .navbar-menu.active {
+                display: flex;
+            }
+
+            .navbar .container {
+                position: relative;
+            }
+
+            .contact-content h1 {
+                font-size: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+
+            .dark-mode .navbar-menu {
+                background: linear-gradient(135deg, #1a2d1e 0%, #2a4a32 100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="" class="navbar-logo">🌱 AQI Tracker</a>
+            </div>
+            
+            <button class="hamburger" id="hamburger-button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <div class="navbar-menu" id="navbar-menu">
+                <a href="" class="nav-item">🏠 Home</a>
+                <a href="" class="nav-item">📍 Tracker</a>
+                <a href="" class="nav-item">🛒 Marketplace</a>
+                <a href="" class="nav-item">📰 Blog</a>
+                <a href="" class="nav-item">📢 About</a>
+                <a href="" class="nav-item">🤝 Join</a>
+                <div class="settings-container">
+                    <i class="fa-solid fa-cog settings-icon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="contact-content">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p class="contact-subtitle">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+
+            <div class="contact-grid">
+                <!-- Contact Information -->
+                <div class="contact-info-section">
+                    <h2>Get in Touch</h2>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Our Office</h3>
+                            <p>123 Green Street<br>Eco City, EC 12345<br>United States</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Phone</h3>
+                            <p><a href="">(555) 123-4567</a></p>
+                            <p>Mon-Fri: 9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>General: <a href="">info@aqitracker.com</a></p>
+                            <p>Support: <a href="">support@aqitracker.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Discord Community</h3>
+                            <p><a href="">Join our Discord server</a></p>
+                            <p>Chat with our community</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-section">
+                    <h2>Send us a Message</h2>
+                    
+                    <div class="success-message" id="success-message">
+                        <i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully.
+                    </div>
+
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name *</label>
+                                <input type="text" id="first-name" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name *</label>
+                                <input type="text" id="last-name" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="feedback">Feedback</option>
+                                <option value="bug-report">Bug Report</option>
+                                <option value="feature-request">Feature Request</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" required placeholder="Tell us how we can help you..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="map-section">
+                <h2>Find Us</h2>
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span style="margin-left: 1rem;">Interactive map coming soon</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2024 This website has been made by Team: STARDEV.</p>
+                <div class="footer-links">
+                    <a href="">Privacy Policy</a>
+                    <a href="">Terms of Service</a>
+                    <a href="">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal-tcg" class="settings-modal">
+        <div class="settings-modal-content">
+            <span class="close-button" onclick="toggleTCGSettingsModal()">×</span>
+            <h2>Settings</h2>
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="darkModeToggleModal" />
+                    <span class="slider"></span>
+                </label>
+                <span>Dark Mode</span>
+            </div>
+            <div class="social-button-container">
+                <a href="" class="social-button discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Settings Modal Functions
+        function toggleTCGSettingsModal() {
+            const modal = document.getElementById("settings-modal-tcg");
+            modal.classList.toggle("hidden");
+            if (!modal.classList.contains("hidden")) {
+                syncToggleWithDarkMode();
+            }
+        }
+
+        function syncToggleWithDarkMode() {
+            const darkModeToggleModal = document.getElementById("darkModeToggleModal");
+            if (darkModeToggleModal) {
+                darkModeToggleModal.checked = document.body.classList.contains("dark-mode");
+            }
+        }
+
+        // Initialize settings functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Settings icon click handler
+            const settingsIcon = document.querySelector('.settings-icon');
+            if (settingsIcon) {
+                settingsIcon.addEventListener('click', toggleTCGSettingsModal);
+            }
+
+            // Close button handler
+            const closeButton = document.querySelector('.close-button');
+            if (closeButton) {
+                closeButton.addEventListener('click', toggleTCGSettingsModal);
+            }
+
+            // Dark mode functionality
+            const savedDarkMode = localStorage.getItem("darkMode") === "enabled";
+            if (savedDarkMode) {
+                document.body.classList.add("dark-mode");
+            }
+
+            const darkModeToggleModal = document.getElementById("darkModeToggleModal");
+            if (darkModeToggleModal) {
+                darkModeToggleModal.checked = savedDarkMode;
+                darkModeToggleModal.addEventListener("change", () => {
+                    if (darkModeToggleModal.checked) {
+                        document.body.classList.add("dark-mode");
+                        localStorage.setItem("darkMode", "enabled");
+                    } else {
+                        document.body.classList.remove("dark-mode");
+                        localStorage.setItem("darkMode", "disabled");
+                    }
+                });
+            }
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById("settings-modal-tcg");
+                if (event.target === modal) {
+                    modal.classList.add("hidden");
+                }
+            });
+
+            // Mobile navigation toggle
+            const hamburger = document.getElementById('hamburger-button');
+            const navbarMenu = document.getElementById('navbar-menu');
+
+            if (hamburger && navbarMenu) {
+                hamburger.addEventListener('click', function() {
+                    navbarMenu.classList.toggle('active');
+                    
+                    // Animate hamburger bars
+                    const bars = hamburger.querySelectorAll('.bar');
+                    if (navbarMenu.classList.contains('active')) {
+                        bars[0].style.transform = 'rotate(-45deg) translate(-5px, 6px)';
+                        bars[1].style.opacity = '0';
+                        bars[2].style.transform = 'rotate(45deg) translate(-5px, -6px)';
+                    } else {
+                        bars[0].style.transform = 'none';
+                        bars[1].style.opacity = '1';
+                        bars[2].style.transform = 'none';
+                    }
+                });
+            }
+
+            // Close mobile menu when clicking on nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        navbarMenu.classList.remove('active');
+                        const bars = hamburger.querySelectorAll('.bar');
+                        bars[0].style.transform = 'none';
+                        bars[1].style.opacity = '1';
+                        bars[2].style.transform = 'none';
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!hamburger.contains(event.target) && !navbarMenu.contains(event.target)) {
+                    if (navbarMenu.classList.contains('active')) {
+                        navbarMenu.classList.remove('active');
+                        const bars = hamburger.querySelectorAll('.bar');
+                        bars[0].style.transform = 'none';
+                        bars[1].style.opacity = '1';
+                        bars[2].style.transform = 'none';
+                    }
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    navbarMenu.classList.remove('active');
+                    const bars = hamburger.querySelectorAll('.bar');
+                    bars.forEach(bar => {
+                        bar.style.transform = 'none';
+                        bar.style.opacity = '1';
+                    });
+                }
+            });
+
+            // Contact form handling
+            const contactForm = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const successMessage = document.getElementById('success-message');
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Disable submit button and show loading state
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                
+                // Simulate form submission
+                setTimeout(() => {
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Reset submit button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 1000);
+            });
+
+            // Form validation
+            const requiredFields = contactForm.querySelectorAll('[required]');
+            
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    validateField(field);
+                });
+                
+                field.addEventListener('input', function() {
+                    if (field.classList.contains('error')) {
+                        validateField(field);
+                    }
+                });
+            });
+
+            function validateField(field) {
+                const value = field.value.trim();
+                
+                if (!value) {
+                    showFieldError(field, 'This field is required');
+                    return false;
+                }
+                
+                if (field.type === 'email' && !isValidEmail(value)) {
+                    showFieldError(field, 'Please enter a valid email address');
+                    return false;
+                }
+                
+                clearFieldError(field);
+                return true;
+            }
+
+            function showFieldError(field, message) {
+                field.classList.add('error');
+                field.style.borderColor = '#dc3545';
+                
+                // Remove existing error message
+                const existingError = field.parentNode.querySelector('.error-message');
+                if (existingError) {
+                    existingError.remove();
+                }
+                
+                // Add error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.style.color = '#dc3545';
+                errorDiv.style.fontSize = '0.875rem';
+                errorDiv.style.marginTop = '0.25rem';
+                errorDiv.textContent = message;
+                field.parentNode.appendChild(errorDiv);
+            }
+
+            function clearFieldError(field) {
+                field.classList.remove('error');
+                field.style.borderColor = '#e0e0e0';
+                
+                const errorMessage = field.parentNode.querySelector('.error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+            }
+
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+        });
+    </script>
+</body>
+</html>
