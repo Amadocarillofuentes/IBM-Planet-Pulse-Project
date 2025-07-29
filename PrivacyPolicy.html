@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - AQI Tracker</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8fffe;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Navigation */
+      .navbar {
+        background: linear-gradient(135deg, #2c5530 0%, #3d7c47 100%);
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-brand .navbar-logo {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .navbar-menu {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-item {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .nav-item.active {
+        color: white;
+      }
+
+      .settings-container {
+        margin-left: 1rem;
+      }
+
+      .settings-icon {
+        font-size: 20px;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.9);
+        transition: color 0.3s ease;
+      }
+
+      .settings-icon:hover {
+        color: white;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .bar {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        margin: 3px 0;
+        transition: 0.3s;
+      }
+
+      /* Main Content */
+      .privacy-content {
+        min-height: calc(100vh - 200px);
+        padding: 3rem 0;
+      }
+
+      .privacy-content h1 {
+        font-size: 2.5rem;
+        color: #2c5530;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .last-updated {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+        margin-bottom: 3rem;
+        font-size: 1.1rem;
+      }
+
+      .privacy-section {
+        margin-bottom: 2.5rem;
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .privacy-section h2 {
+        color: #2c5530;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #e8f5e8;
+        padding-bottom: 0.5rem;
+      }
+
+      .privacy-section p {
+        margin-bottom: 1rem;
+        line-height: 1.7;
+        color: #555;
+      }
+
+      .privacy-section ul {
+        margin-left: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .privacy-section li {
+        margin-bottom: 0.5rem;
+        color: #555;
+      }
+
+      .contact-info {
+        background: #f8fffe;
+        padding: 1.5rem;
+        border-radius: 8px;
+        border-left: 4px solid #3d7c47;
+      }
+
+      .contact-info p {
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-info a {
+        color: #3d7c47;
+        text-decoration: none;
+      }
+
+      .contact-info a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      .footer {
+        background: #2c5530;
+        color: white;
+        padding: 2rem 0;
+        margin-top: 3rem;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: white;
+      }
+
+      /* Settings Modal */
+      .settings-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+
+      .settings-modal.hidden {
+        display: none;
+      }
+
+      .settings-modal:not(.hidden) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .settings-modal-content {
+        background: white;
+        color: #333;
+        margin: 15px;
+        padding: 30px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 420px;
+        position: relative;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      }
+
+      .close-button {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .close-button:hover {
+        color: #2c5530;
+      }
+
+      .switch-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      .switch input:checked + .slider {
+        background-color: #2c5530;
+      }
+
+      .switch input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      .social-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      .social-button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        text-decoration: none;
+        transition: transform 0.2s ease;
+      }
+
+      .social-button:hover {
+        transform: scale(1.1);
+      }
+
+      .social-button.discord {
+        background-color: #5865f2;
+      }
+
+      /* Dark Mode */
+      .dark-mode {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+      }
+
+      .dark-mode .navbar {
+        background: linear-gradient(135deg, #1a2d1e 0%, #2a4a32 100%);
+      }
+
+      .dark-mode .privacy-section {
+        background: #2a2a2a;
+        color: #e0e0e0;
+      }
+
+      .dark-mode .contact-info {
+        background: #333;
+        border-left-color: #3d7c47;
+      }
+
+      .dark-mode .contact-info a {
+        color: #4a9d5a;
+      }
+
+      .dark-mode .footer {
+        background: #1a2d1e;
+      }
+
+      .dark-mode .settings-modal-content {
+        background: #2a2a2a;
+        color: #e0e0e0;
+      }
+
+      .dark-mode .close-button:hover {
+        color: #4a9d5a;
+      }
+
+      .dark-mode .slider:before {
+        background-color: #e0e0e0;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hamburger {
+          display: flex;
+        }
+
+        .navbar-menu {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: linear-gradient(135deg, #2c5530 0%, #3d7c47 100%);
+          flex-direction: column;
+          padding: 1rem;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-menu.active {
+          display: flex;
+        }
+
+        .navbar .container {
+          position: relative;
+        }
+
+        .privacy-content h1 {
+          font-size: 2rem;
+        }
+
+        .privacy-section {
+          padding: 1.5rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .footer-links {
+          justify-content: center;
+        }
+
+        .dark-mode .navbar-menu {
+          background: linear-gradient(135deg, #1a2d1e 0%, #2a4a32 100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <a href="" class="navbar-logo"
+          ><img src="./images/logo.png" alt="" /> PLANET PULSE</a
+        >
+      </div>
+
+      <button class="hamburger" id="hamburger-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <div class="navbar-menu" id="navbar-menu">
+        <a href="./index.html" class="nav-item active"
+          ><i class="fa-solid fa-house"></i> Home</a
+        >
+        <a href="./tracker.html" class="nav-item"
+          ><i class="fa-solid fa-chart-bar"></i> Tracker</a
+        >
+        <a href="./marketplace.html" class="nav-item"
+          ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
+        >
+        <a href="./blog.html" class="nav-item"
+          ><i class="fa-solid fa-newspaper"></i> Blog</a
+        >
+        <a href="./about.html" class="nav-item"
+          ><i class="fa-solid fa-address-card"></i> About</a
+        >
+        <div class="settings-container">
+          <i class="fa-solid fa-cog settings-icon"></i>
+        </div>
+      </div>
+
+      <div id="settings-modal-tcg" class="modal hidden">
+        <div class="modal-content">
+          <span class="close-button" onclick="toggleTCGSettingsModal()">×</span>
+          <h2>Settings</h2>
+
+          <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="darkModeToggleModal" />
+              <span class="slider"></span>
+            </label>
+            <span id="mode-name">Dark Mode</span>
+          </div>
+
+          <div class="social-button-container"></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="privacy-content">
+      <div class="container">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last updated: January 2024</p>
+
+        <section class="privacy-section">
+          <h2>1. Information We Collect</h2>
+          <p>
+            We collect information you provide directly to us, such as when you
+            create an account, use our services, or contact us for support.
+          </p>
+          <ul>
+            <li>Personal information (name, email address, location)</li>
+            <li>Usage data and analytics</li>
+            <li>Device and browser information</li>
+            <li>Air quality preferences and settings</li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>2. How We Use Your Information</h2>
+          <p>We use the information we collect to:</p>
+          <ul>
+            <li>Provide and improve our air quality tracking services</li>
+            <li>Send you relevant air quality alerts and notifications</li>
+            <li>Personalize your experience on our platform</li>
+            <li>Communicate with you about updates and features</li>
+            <li>Ensure the security and integrity of our services</li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>3. Information Sharing</h2>
+          <p>
+            We do not sell, trade, or rent your personal information to third
+            parties. We may share your information only in the following
+            circumstances:
+          </p>
+          <ul>
+            <li>With your explicit consent</li>
+            <li>To comply with legal obligations</li>
+            <li>To protect our rights and safety</li>
+            <li>With service providers who assist in our operations</li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>4. Data Security</h2>
+          <p>
+            We implement appropriate security measures to protect your personal
+            information against unauthorized access, alteration, disclosure, or
+            destruction. However, no method of transmission over the internet is
+            100% secure.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>5. Your Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>Access and update your personal information</li>
+            <li>Delete your account and associated data</li>
+            <li>Opt-out of marketing communications</li>
+            <li>Request a copy of your data</li>
+            <li>Lodge a complaint with supervisory authorities</li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>6. Cookies and Tracking</h2>
+          <p>
+            We use cookies and similar technologies to enhance your experience,
+            analyze usage patterns, and personalize content. You can control
+            cookie settings through your browser preferences.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>7. Children's Privacy</h2>
+          <p>
+            Our services are not intended for children under 13 years of age. We
+            do not knowingly collect personal information from children under
+            13.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>8. Changes to This Policy</h2>
+          <p>
+            We may update this Privacy Policy from time to time. We will notify
+            you of any material changes by posting the new policy on this page
+            and updating the "Last updated" date.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>9. Contact Us</h2>
+          <p>
+            If you have any questions about this Privacy Policy, please contact
+            us:
+          </p>
+          <div class="contact-info">
+            <p>Email: <a href="">privacy@aqitracker.com</a></p>
+            <p>Address: 123 Green Street, Eco City, EC 12345</p>
+            <p>Phone: <a href="">(555) 123-4567</a></p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>© 2024 This website has been made by Team: STARDEV.</p>
+          <div class="footer-links">
+            <a href="">Privacy Policy</a>
+            <a href="">Terms of Service</a>
+            <a href="">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      //setting module
+
+      const settingsIcons = document.querySelectorAll(".settings-icon");
+      const modal = document.getElementById("settings-modal-tcg");
+      const darkModeToggleModal = document.getElementById(
+        "darkModeToggleModal"
+      );
+
+      function toggleTCGSettingsModal() {
+        modal.classList.toggle("hidden");
+        if (!modal.classList.contains("hidden")) {
+          syncToggleWithDarkMode();
+        }
+      }
+
+      function syncToggleWithDarkMode() {
+        if (darkModeToggleModal) {
+          darkModeToggleModal.checked =
+            document.body.classList.contains("dark-mode");
+        }
+      }
+
+      settingsIcons.forEach((icon) => {
+        icon.addEventListener("click", toggleTCGSettingsModal);
+      });
+
+      const closeButton = document.querySelector(".close-button");
+      if (closeButton) {
+        closeButton.addEventListener("click", () => {
+          return;
+        });
+      }
+
+      // Dark Mode Logic
+      const modeName = document.getElementById("mode-name");
+      const savedDarkMode = localStorage.getItem("darkMode") === "enabled";
+      if (savedDarkMode) {
+        document.body.classList.add("dark-mode");
+      }
+      if (darkModeToggleModal) {
+        darkModeToggleModal.checked = savedDarkMode;
+        darkModeToggleModal.addEventListener("change", () => {
+          if (darkModeToggleModal.checked) {
+            document.body.classList.add("dark-mode");
+            modeName.innerText = "Light Mode";
+            localStorage.setItem("darkMode", "enabled");
+          } else {
+            document.body.classList.remove("dark-mode");
+            modeName.innerText = "Dark Mode";
+            localStorage.setItem("darkMode", "disabled");
+          }
+        });
+      }
+
+      // Initialize settings functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile navigation toggle
+        const hamburger = document.getElementById("hamburger-button");
+        const navbarMenu = document.getElementById("navbar-menu");
+
+        if (hamburger && navbarMenu) {
+          hamburger.addEventListener("click", function () {
+            navbarMenu.classList.toggle("active");
+
+            // Animate hamburger bars
+            const bars = hamburger.querySelectorAll(".bar");
+            if (navbarMenu.classList.contains("active")) {
+              bars[0].style.transform = "rotate(-45deg) translate(-5px, 6px)";
+              bars[1].style.opacity = "0";
+              bars[2].style.transform = "rotate(45deg) translate(-5px, -6px)";
+            } else {
+              bars[0].style.transform = "none";
+              bars[1].style.opacity = "1";
+              bars[2].style.transform = "none";
+            }
+          });
+        }
+
+        // Close mobile menu when clicking on nav items
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            if (window.innerWidth <= 768) {
+              navbarMenu.classList.remove("active");
+              const bars = hamburger.querySelectorAll(".bar");
+              bars[0].style.transform = "none";
+              bars[1].style.opacity = "1";
+              bars[2].style.transform = "none";
+            }
+          });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener("click", function (event) {
+          if (
+            !hamburger.contains(event.target) &&
+            !navbarMenu.contains(event.target)
+          ) {
+            if (navbarMenu.classList.contains("active")) {
+              navbarMenu.classList.remove("active");
+              const bars = hamburger.querySelectorAll(".bar");
+              bars[0].style.transform = "none";
+              bars[1].style.opacity = "1";
+              bars[2].style.transform = "none";
+            }
+          }
+        });
+
+        // Handle window resize
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 768) {
+            navbarMenu.classList.remove("active");
+            const bars = hamburger.querySelectorAll(".bar");
+            bars.forEach((bar) => {
+              bar.style.transform = "none";
+              bar.style.opacity = "1";
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

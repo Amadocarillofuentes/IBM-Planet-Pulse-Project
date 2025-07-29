@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AQI Tracker - Real-time Air Quality Monitoring</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="tracker.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/tracker.css" />
+    <link rel="stylesheet" href="css/marketplace.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -21,37 +22,35 @@
     <nav id="main-navbar" class="navbar">
       <div class="navbar-brand">
         <a href="" class="navbar-logo"
-          ><img src="./images/logo.png" alt="" /> AQI Tracker</a
+          ><img src="./images/logo.png" alt="" /> PLANET PULSE</a
         >
       </div>
 
-      <div class="navbar-menu" id="main-nav">
-        <a href="./index.html" class="nav-item active"
+      <button class="hamburger" id="hamburger-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <div class="navbar-menu" id="navbar-menu">
+        <a href="./index.html" class="nav-item "
           ><i class="fa-solid fa-house"></i> Home</a
         >
-        <a href="./tracker.html" class="nav-item"
+        <a href="./tracker.html" class="nav-item active"
           ><i class="fa-solid fa-chart-bar"></i> Tracker</a
         >
-        <a href="./marketplace_section/marketplace.html" class="nav-item"
+        <a href="./marketplace.html" class="nav-item"
           ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
         >
-        <a href="blog.html" class="nav-item"
+        <a href="./blog.html" class="nav-item"
           ><i class="fa-solid fa-newspaper"></i> Blog</a
         >
-        <a href="#" class="nav-item"
+        <a href="./about.html" class="nav-item"
           ><i class="fa-solid fa-address-card"></i> About</a
         >
-        <a href="#" class="nav-item"
-          ><i class="fa-solid fa-handshake"></i> Join</a
-        >
-      </div>
-
-      <div class="settings-container">
-        <i
-          class="fa-solid fa-cog settings-icon"
-          id="setting-logo"
-          onclick="toggleTCGSettingsModal()"
-        ></i>
+        <div class="settings-container">
+          <i class="fa-solid fa-cog settings-icon"></i>
+        </div>
       </div>
 
       <div id="settings-modal-tcg" class="modal hidden">
@@ -67,31 +66,7 @@
             <span id="mode-name">Dark Mode</span>
           </div>
 
-          <div class="social-button-container">
-            <a href="" target="_blank" class="social-button discord"
-              ><i class="fab fa-discord"></i
-            ></a>
-            <div class="navbar-menu" id="hidden-nav">
-              <a href="#" class="nav-item active"
-                ><i class="fa-solid fa-house"></i> Home</a
-              >
-              <a href="#" class="nav-item"
-                ><i class="fa-solid fa-chart-bar"></i> Tracker</a
-              >
-              <a href="#" class="nav-item"
-                ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
-              >
-              <a href="blog.html" class="nav-item"
-                ><i class="fa-solid fa-newspaper"></i> Blog</a
-              >
-              <a href="#" class="nav-item"
-                ><i class="fa-solid fa-address-card"></i> About</a
-              >
-              <a href="#" class="nav-item"
-                ><i class="fa-solid fa-handshake"></i> Join</a
-              >
-            </div>
-          </div>
+          <div class="social-button-container"></div>
         </div>
       </div>
     </nav>
@@ -623,15 +598,15 @@
         <div class="footer-content">
           <p>© 2024 This website has been made by Team: STARDEV.</p>
           <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Contact Us</a>
+            <a href="PrivacyPolicy.html">Privacy Policy</a>
+            <a href="TermOfServices .html">Terms of Service</a>
+            <a href="Contact.html">Contact Us</a>
           </div>
         </div>
       </div>
     </footer>
 
-    <script src="tracker.js"></script>
-    <script src="script.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | AQI Vision</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/about.css" />
+    <link rel="stylesheet" href="css/marketplace.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="line-grafic"></div>
+    <!-- Header Navigation -->
+    <nav id="main-navbar" class="navbar">
+      <div class="navbar-brand">
+        <a href="" class="navbar-logo"
+          ><img src="./images/logo.png" alt="" /> PLANET PULSE</a
+        >
+      </div>
+
+      <button class="hamburger" id="hamburger-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <div class="navbar-menu" id="navbar-menu">
+        <a href="./index.html" class="nav-item"
+          ><i class="fa-solid fa-house"></i> Home</a
+        >
+        <a href="./tracker.html" class="nav-item"
+          ><i class="fa-solid fa-chart-bar"></i> Tracker</a
+        >
+        <a href="./marketplace.html" class="nav-item"
+          ><i class="fa-solid fa-shopping-basket"></i> Marketplace</a
+        >
+        <a href="./blog.html" class="nav-item"
+          ><i class="fa-solid fa-newspaper"></i> Blog</a
+        >
+        <a href="./about.html" class="nav-item active"
+          ><i class="fa-solid fa-address-card"></i> About</a
+        >
+        <div class="settings-container">
+          <i class="fa-solid fa-cog settings-icon"></i>
+        </div>
+      </div>
+
+      <div id="settings-modal-tcg" class="modal hidden">
+        <div class="modal-content">
+          <span class="close-button" onclick="toggleTCGSettingsModal()">×</span>
+          <h2>Settings</h2>
+
+          <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="darkModeToggleModal" />
+              <span class="slider"></span>
+            </label>
+            <span id="mode-name">Dark Mode</span>
+          </div>
+
+          <div class="social-button-container"></div>
+        </div>
+      </div>
+    </nav>
+    <section class="about-container">
+      <div class="section fade-in">
+        <h1><i class="fa-solid fa-earth-asia"></i> Our Mission</h1>
+        <p>
+          AQI Vision is committed to empowering people and communities with
+          real-time air quality information, helping them make informed
+          decisions for a healthier future. We blend technology and
+          sustainability to fight pollution through awareness, action, and
+          innovation.
+        </p>
+      </div>
+
+      <div class="section fade-in">
+        <h2><i class="fa-solid fa-rocket fa-beat"></i> Our Story</h2>
+        <p>
+          Born from a passion for clean air and driven by data, our platform
+          started as a small project tracking pollution in a few cities. Today,
+          it offers global AQI coverage, tools for citizens, and actionable
+          insights to inspire a cleaner world.
+        </p>
+      </div>
+
+      <div class="section team fade-in">
+        <h2><i class="fa-solid fa-users"></i> Meet the Team</h2>
+        <div class="team-cards">
+          <div class="team-card">
+            <img src="images/person2.jpeg" alt="Founder" />
+            <h4>Alex D.</h4>
+            <p>Founder & Developer</p>
+          </div>
+          <div class="team-card">
+            <img src="images/person3.jpg" alt="Designer" />
+            <h4>Maya S.</h4>
+            <p>UI/UX Designer</p>
+          </div>
+          <div class="team-card">
+            <img src="images/person 1.avif" alt="Data" />
+            <h4>Jay K.</h4>
+            <p>Data Analyst</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section stats fade-in">
+        <div class="stats-txt">
+          <h2><i class="fa-solid fa-chart-line"></i> Impact Stats</h2>
+          <ul>
+            <li class="move-left">
+              <i class="fa-solid fa-globe"></i> 190+ Countries Covered
+            </li>
+            <li class="move-left">
+              <i class="fa-solid fa-chart-column"></i> 10M+ Daily AQI Readings
+            </li>
+            <li class="move-left">
+              <i class="fa-solid fa-users"></i> 500K+ Active Users
+            </li>
+            <li class="move-left">
+              <i class="fa-solid fa-seedling"></i> 120+ Eco Challenges Completed
+            </li>
+          </ul>
+        </div>
+        <div class="stats-imgs">
+          <img src="images/country.jpeg" alt="countries" />
+          <img src="images/ranking.webp" alt="ranking" />
+          <img src="images/active-user.jpg" alt="active-user" />
+          <img src="images/cleaning.webp" alt="cleaning" />
+        </div>
+      </div>
+
+      <div class="section partners fade-in">
+        <h2><i class="fa-solid fa-handshake"></i> Our Partners</h2>
+        <div class="partner-logos">
+          <span class="partner-logos-span"
+            ><img src="./images/tree.jpeg" alt="tree" /> GreenFuture</span
+          >
+          <span class="partner-logos-span"
+            ><img src="images/air-clearn.jpeg" alt="air-molicul" /> CleanTech
+            Labs</span
+          >
+          <span class="partner-logos-span"
+            ><img src="images/API.jpeg" alt="server" /> OpenMeteo API</span
+          >
+          <span class="partner-logos-span"
+            ><img src="images/img-provider.jpeg" alt="camera" /> Image
+            Gallery</span
+          >
+          <span class="partner-logos-span"
+            ><img src="images/flower-seed.jpeg" alt="flower-seed" />
+            Florent</span
+          >
+        </div>
+      </div>
+
+      <div class="section timeline fade-in">
+        <h2><i class="fa-solid fa-calendar-alt fa-flip"></i> Our Journey</h2>
+        <ul class="timeline">
+          <li class="move-left"><span>2023</span> - Concept launched</li>
+          <li class="move-left"><span>2024</span> - Global AQI integration</li>
+          <li class="move-left">
+            <span>2025</span> - Marketplace & Community live
+          </li>
+        </ul>
+      </div>
+
+      <div class="section contact fade-in">
+        <h2><i class="fa-solid fa-envelope fa-beat"></i> Contact Us</h2>
+        <p onclick="copyLinkText(this)">
+          <i class="fas fa-envelope-open-text email"></i>
+          <a href="#">PlanetPulseIn@Gmail.com</a>
+        </p>
+        <p onclick="copyLinkText(this)">
+          <i class="fab fa-twitter twitter"></i> <a href="#">@Planet Pulse</a>
+        </p>
+        <p onclick="copyLinkText(this)">
+          <i class="fab fa-facebook facebook"></i>
+          <a href="#">Planet Pulse.F</a>
+        </p>
+        <p onclick="copyLinkText(this)">
+          <i class="fab fa-instagram insta"></i> <a href="#">Planet Pulse.I</a>
+        </p>
+        <p><i class="fab fa-youtube yt"></i> <a href="#">Planet Pulse.YT</a></p>
+        <p onclick="copyLinkText(this)">
+          <i class="fab fa-discord discord"></i> <a href="#">Planet Pulse.D</a>
+        </p>
+      </div>
+
+      <div class="donation-card fade-in section">
+        <div class="donat-box">
+          <h2><i class="fas fa-donate fa-bounce"></i> Support Our Mission</h2>
+          <input
+            type="number"
+            id="donationAmount"
+            placeholder="Enter amount (₹)"
+          />
+          <button onclick="submitDonation()">Donate</button>
+          <div id="successMessage" class="popup">
+            🎉 Thank you for your donation!
+          </div>
+        </div>
+        <div class="video-box">
+          <iframe
+            src="https://www.youtube.com/embed/45dT2qdG6IE?start=0&end=60&autoplay=1&mute=1&loop=1&playlist=45dT2qdG6IE"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+          <p>VS</p>
+          <iframe
+            src="https://www.youtube.com/embed/AbA-hoIuHM4?start=294&end=328&autoplay=1&mute=1&loop=1&playlist=AbA-hoIuHM4"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>© 2024 This website has been made by Team: STARDEV.</p>
+          <div class="footer-links">
+            <a href="PrivacyPolicy.html">Privacy Policy</a>
+            <a href="TermOfServices .html">Terms of Service</a>
+            <a href="Contact.html">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/about.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
