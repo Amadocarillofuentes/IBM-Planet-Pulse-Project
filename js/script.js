@@ -95,15 +95,16 @@ function setupHamburgerToggle() {
 
 setupHamburgerToggle();
 
-//bouns animtion with interval
+// animtion with interval
 
 const heroSectBtn = document.getElementById("heroSectBtn");
 
 setInterval(() => {
   heroSectBtn.classList.add("bouns");
-  setTimeout(() => heroSectBtn.classList.remove("bouns"), 1500); // match animation duration
-}, 6000); // run every 5 seconds
-
+  setTimeout(() => {
+    heroSectBtn.classList.remove("bouns");
+  }, 1400);
+}, 5000);
 //card creation
 
 // Wait until the DOM is fully loaded
