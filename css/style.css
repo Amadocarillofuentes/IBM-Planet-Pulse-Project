@@ -89,6 +89,7 @@ body.dark-mode {
   gap: 2rem;
   align-items: center;
   justify-content: center;
+  padding-right: 0.5rem;
 }
 
 .nav-item {
@@ -882,11 +883,11 @@ body.dark-mode {
 
 .dark-mode .nav-item:hover,
 .dark-mode .nav-item.active {
-  color: var(--secondary-green);
+  color: var(--primary-green);
 }
 
 .dark-mode .hero-section {
-  background: url('../images/AQI-banner.webp');
+  background: url("../images/AQI-banner.webp");
   background-size: cover;
 }
 
@@ -1020,7 +1021,7 @@ body.dark-mode {
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--soft-lemon);
+    background: var(--white);
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -1031,9 +1032,13 @@ body.dark-mode {
     display: flex;
   }
 
-  .navbar-menu.show .nav-item,
+  .navbar-menu.show, .nav-item,
   .cart-button,
   .settings-icon {
+    color: var(--text-primary);
+  }
+
+ .dark-mode .nav-item.active{
     color: var(--primary-green);
   }
 
